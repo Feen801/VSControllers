@@ -1,21 +1,12 @@
 ﻿using UnityEngine;
 
-namespace VSVRMod2;
+namespace VSVRControllers;
 
 class Keyboard
 {
     public static void HandleKeyboardInputSession()
     {
-        if (Input.GetKeyDown(KeyCode.Comma))
-        {
-            VRCamera.CenterCamera();
-        }
         
-        if (Input.GetKeyDown(KeyCode.Slash))
-        {
-            VRCamera.ToggleUIVR();
-        }
-        //VSVRMod.logger.LogInfo(Gamepad.current.aButton);
     }
 
     public static void HandleKeyboardInput()
@@ -23,11 +14,7 @@ class Keyboard
         if (Input.GetKeyDown(KeyCode.Quote))
         {
             Controller.outputControllerDebug = (Controller.outputControllerDebug + 1) % 5;
-            VSVRMod.logger.LogInfo("Controller debug level is now " + Controller.outputControllerDebug);
-        }
-        if (Input.GetKeyDown(KeyCode.Period))
-        {
-            Controller.CheckControllers();
+            VSVRControllersMod.logger.LogInfo("Controller debug level is now " + Controller.outputControllerDebug);
         }
     }
 }

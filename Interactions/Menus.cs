@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-namespace VSVRMod2;
+namespace VSVRControllers;
 public class VSFindomButton
 {
     static Color darkGrey = new Color(0.15f, 0.15f, 0.15f, 1);
@@ -24,20 +24,20 @@ public class VSFindomButton
         Transform buttonObject = knownParent.Find(path);
         if (buttonObject == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null button object");
+            VSVRControllersMod.logger.LogError(this.name + " had null button object");
         }
         this.buttonObject = buttonObject.gameObject;
         this.button = buttonObject.GetComponent<Button>();
         if (this.button == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null button");
+            VSVRControllersMod.logger.LogError(this.name + " had null button");
         }
         highlight = this.buttonObject.GetComponent<Image>();
         if (this.highlight == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null image");
+            VSVRControllersMod.logger.LogError(this.name + " had null image");
         }
-        VSVRMod.logger.LogInfo("Verified findom button: " + this.name);
+        VSVRControllersMod.logger.LogInfo("Verified findom button: " + this.name);
     }
 
     public void Click() 
@@ -108,7 +108,7 @@ class Menus
         choiceMenu.representative = eventManager.Find("ChoiceUI").gameObject;
         if (choiceMenu.representative == null)
         {
-            VSVRMod.logger.LogError("ChoiceUI had null representative");
+            VSVRControllersMod.logger.LogError("ChoiceUI had null representative");
         }
         choiceMenu.favorite = new();
         choiceMenu.favorite.Populate(
@@ -134,13 +134,13 @@ class Menus
             "/Collider",
             "/Image (1)/Borders/DarkBorder"
             );
-        VSVRMod.logger.LogInfo("Setup ChoiceUI");
+        VSVRControllersMod.logger.LogInfo("Setup ChoiceUI");
 
         //StakesUI-------------------
         stakesMenu.representative = eventManager.Find("StakesUI").gameObject;
         if (stakesMenu.representative == null)
         {
-            VSVRMod.logger.LogError("StakesUI had null representative");
+            VSVRControllersMod.logger.LogError("StakesUI had null representative");
         }
         stakesMenu.top = new();
         stakesMenu.top.Populate(
@@ -166,13 +166,13 @@ class Menus
             "/Collider",
             "/Borders/DarkBorder"
             );
-        VSVRMod.logger.LogInfo("Setup StakesUI");
+        VSVRControllersMod.logger.LogInfo("Setup StakesUI");
 
         //Safeword-------------------
         safewordMenu.representative = eventManager.Find("Buttons/EndSession").gameObject;
         if (safewordMenu.representative == null)
         {
-            VSVRMod.logger.LogError("Safeword had null representative");
+            VSVRControllersMod.logger.LogError("Safeword had null representative");
         }
         safewordMenu.goEasy = new();
         safewordMenu.goEasy.Populate(
@@ -198,27 +198,27 @@ class Menus
             "/DoneBG/DoneText/Collider",
             "/DoneBG/DoneText/Collider/ButtonPressReact1"
             );
-        VSVRMod.logger.LogInfo("Setup Safeword");
+        VSVRControllersMod.logger.LogInfo("Setup Safeword");
 
         //Count Input-------------------
         intInput.representative = eventManager.Find("IntInputField").gameObject;
         if (intInput.representative == null)
         {
-            VSVRMod.logger.LogError("Int input had null representative");
+            VSVRControllersMod.logger.LogError("Int input had null representative");
         }
 
         intInput.text = intInput.representative.GetComponent<TMP_InputField>();
         if (intInput.text == null)
         {
-            VSVRMod.logger.LogError("Int input text was null");
+            VSVRControllersMod.logger.LogError("Int input text was null");
         }
-        VSVRMod.logger.LogInfo("Setup Count Input");
+        VSVRControllersMod.logger.LogInfo("Setup Count Input");
 
         //Tribute Menu
         findomInput.representative = overlayCanvas.Find("TributeMenu").gameObject;
         if (findomInput.representative == null)
         {
-            VSVRMod.logger.LogError("Tribute Menu had null representative");
+            VSVRControllersMod.logger.LogError("Tribute Menu had null representative");
         }
 
         findomInput.sendOptions = new List<VSFindomButton>();
@@ -227,12 +227,12 @@ class Menus
         findomInput.sliderObject = overlayCanvas.Find("TributeMenu/Slider - Standard (Value)").gameObject;
         if (findomInput.sliderObject == null)
         {
-            VSVRMod.logger.LogError("Tribute Menu had null slider object");
+            VSVRControllersMod.logger.LogError("Tribute Menu had null slider object");
         }
         findomInput.slider = findomInput.sliderObject.GetComponent<Slider>();
         if (findomInput.slider == null)
         {
-            VSVRMod.logger.LogError("Tribute Menu had null slider");
+            VSVRControllersMod.logger.LogError("Tribute Menu had null slider");
         }
         VSFindomButton tributeButton = new VSFindomButton();
         VSFindomButton bribeButton = new VSFindomButton();
@@ -250,13 +250,13 @@ class Menus
         findomInput.sendOptions.Add(bribeButton);
         findomInput.sendOptions.Add(tributeButton);
 
-        VSVRMod.logger.LogInfo("Setup Tribute Menu");
+        VSVRControllersMod.logger.LogInfo("Setup Tribute Menu");
 
         Transform scoreCanvas = GameObject.Find("ScoreCanvas").transform;
         scoreboard.representative = scoreCanvas.Find("Scoreboard").gameObject;
         scoreboard.mainMenu = new VSFindomButton();
         scoreboard.mainMenu.Populate(scoreCanvas, "Main Menu", "Scoreboard/Finish/Button");
-        VSVRMod.logger.LogInfo("Setup Scoreboard");
+        VSVRControllersMod.logger.LogInfo("Setup Scoreboard");
     }
 
     public static bool ChoiceMenuInteract()
@@ -382,14 +382,14 @@ class Menus
             double magnitude = Controller.GetMaximalJoystickMagnitude();
             if (y > -0.5 && magnitude > 0.05)
             {
-                VSVRMod.logger.LogWarning("CJ ");
+                VSVRControllersMod.logger.LogWarning("CJ ");
                 if (intInputInteractionNext < Time.time)
                 {
                     string current = intInput.text.text;
-                    VSVRMod.logger.LogWarning("C " + current);
+                    VSVRControllersMod.logger.LogWarning("C " + current);
                     int.TryParse(current, out int currentInt);
                     currentInt += (int)Math.Round(x * 4);
-                    VSVRMod.logger.LogWarning("CI " + currentInt);
+                    VSVRControllersMod.logger.LogWarning("CI " + currentInt);
                     intInputInteractionNext = Time.time + intInputInteractionAccel;
                     intInputInteractionAccel = Math.Clamp(intInputInteractionAccel - 0.04f, 0.04f, float.PositiveInfinity);
                     intInput.text.text = currentInt.ToString();

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace VSVRMod2;
+namespace VSVRControllers;
 
 public struct VSButtonComponents
 {
@@ -27,10 +27,10 @@ public class VSGenericButton
 
     public void Populate(Transform knownParent, string name, string path, string colliderPath, string highlightPath)
     {
-        VSVRMod.logger.LogInfo("Populating button: " + name);
+        VSVRControllersMod.logger.LogInfo("Populating button: " + name);
         if (knownParent == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null PARENT?");
+            VSVRControllersMod.logger.LogError(this.name + " had null PARENT?");
         }
         this.name = name;
         Transform buttonObject = knownParent.Find(path);
@@ -38,25 +38,25 @@ public class VSGenericButton
         Transform highlight = knownParent.Find(path + highlightPath);
         if (collider == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null collider");
+            VSVRControllersMod.logger.LogError(this.name + " had null collider");
         }
         this.components.collider = collider.gameObject;
         this.components.buttonFsm = this.components.collider.GetComponent<PlayMakerFSM>();
         if (buttonObject == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null buttonObject");
+            VSVRControllersMod.logger.LogError(this.name + " had null buttonObject");
         }
         if (this.components.buttonFsm == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null buttonFsm");
+            VSVRControllersMod.logger.LogError(this.name + " had null buttonFsm");
         }
         if (highlight == null)
         {
-            VSVRMod.logger.LogError(this.name + " had null highlight");
+            VSVRControllersMod.logger.LogError(this.name + " had null highlight");
         }
         this.components.buttonObject = buttonObject.gameObject;
         this.components.highlight = highlight.gameObject;
-        VSVRMod.logger.LogInfo("Verified button: " + this.name);
+        VSVRControllersMod.logger.LogInfo("Verified button: " + this.name);
     }
 
     public void Click()
@@ -126,7 +126,7 @@ public class Buttons
             VSChoiceButton positiveChoiceButton = new VSChoiceButton();
             positiveChoiceButton.type = VSChoiceButton.ButtonType.Positive;
             positiveChoiceButton.name = positiveButton.name;
-            VSVRMod.logger.LogInfo("Found pos choice button: " + positiveChoiceButton.name);
+            VSVRControllersMod.logger.LogInfo("Found pos choice button: " + positiveChoiceButton.name);
             if (Equals(positiveChoiceButton.name, "PoTMercy"))
             {
                 //?????? what is this button succudev?
@@ -143,7 +143,7 @@ public class Buttons
             VSChoiceButton negativeChoiceButton = new VSChoiceButton();
             negativeChoiceButton.type = VSChoiceButton.ButtonType.Negative;
             negativeChoiceButton.name = negativeButton.name;
-            VSVRMod.logger.LogInfo("Found neg choice button: " + negativeChoiceButton.name);
+            VSVRControllersMod.logger.LogInfo("Found neg choice button: " + negativeChoiceButton.name);
             negativeChoiceButton.components.buttonFsm = negativeButton.Find(VSChoiceButton.colliderPath.TrimStart('/')).GetComponent<PlayMakerFSM>();
             negativeChoiceButton.components.buttonObject = negativeButton.gameObject;
             negativeChoiceButton.components.highlight = negativeButton.Find(VSChoiceButton.highlightPath.TrimStart('/')).gameObject;
@@ -197,7 +197,7 @@ public class Buttons
         opportunityTaunt.Populate(parent,"Taunt", "Buttons/OpportunityTaunt");
         opportunityEntice.Populate(parent,"Entice", "Buttons/OpportunityEntice");
         opportunityPraise.Populate(parent, "Praise", "Buttons/OpportunityPraise");
-        VSVRMod.logger.LogInfo("Finished setting up other buttons");
+        VSVRControllersMod.logger.LogInfo("Finished setting up other buttons");
     }
 
     public static bool TemporaryButtonInteract()
@@ -231,28 +231,28 @@ public class Buttons
         GameObject centerGameObject = GameObject.Find("NewButtons/Center");
         if (centerGameObject == null)
         {
-            VSVRMod.logger.LogError("centerGameObject not found.");
+            VSVRControllersMod.logger.LogError("centerGameObject not found.");
         }
         Transform center = centerGameObject.transform;
 
         Transform exitButtonRadialTransform = center.Find("Level1/Exit");
         if (exitButtonRadialTransform == null)
         {
-            VSVRMod.logger.LogError("Radial exit not found.");
+            VSVRControllersMod.logger.LogError("Radial exit not found.");
         }
         exitButtonRadial = exitButtonRadialTransform.gameObject;
 
         Transform level1Transform = center.Find("Level1");
         if (level1Transform == null)
         {
-            VSVRMod.logger.LogError("level1Transform not found.");
+            VSVRControllersMod.logger.LogError("level1Transform not found.");
         }
         level1 = center.Find("Level1").gameObject;
 
         Transform level2Transform = center.Find("Level2");
         if (level2Transform == null)
         {
-            VSVRMod.logger.LogError("level2Transform not found.");
+            VSVRControllersMod.logger.LogError("level2Transform not found.");
         }
         level2 = level2Transform.gameObject;
 
@@ -315,23 +315,23 @@ public class Buttons
         timeout.components.buttonObject = GameObject.Find("NewButtons/Center/Level2/GameObject/Time Out");
         if (timeout.components.buttonObject == null)
         {
-            VSVRMod.logger.LogError(timeout.name + " had null button object");
+            VSVRControllersMod.logger.LogError(timeout.name + " had null button object");
         }
         timeout.components.collider = GameObject.Find("NewButtons/Center/Level2/GameObject/Time Out/Collider (1)");
         if (timeout.components.collider == null)
         {
-            VSVRMod.logger.LogError(timeout.name + " had null collider");
+            VSVRControllersMod.logger.LogError(timeout.name + " had null collider");
         }
         Assert.IsNotNull(timeout.components.collider);
         timeout.components.buttonFsm = timeout.components.collider.GetComponent<PlayMakerFSM>();
         if (timeout.components.buttonFsm == null)
         {
-            VSVRMod.logger.LogError(timeout.name + " had null button FSM");
+            VSVRControllersMod.logger.LogError(timeout.name + " had null button FSM");
         }
         timeout.components.highlight = GameObject.Find("NewButtons/Center/Level2/GameObject/Time Out/Collider (1)/ButtonReact");
         if (timeout.components.highlight == null)
         {
-            VSVRMod.logger.LogError(timeout.name + " had null button highlight");
+            VSVRControllersMod.logger.LogError(timeout.name + " had null button highlight");
         }
 
 
@@ -375,7 +375,7 @@ public class Buttons
         vsRadialButtons.Add(plus);
         vsRadialButtons.Add(minus);
 
-        VSVRMod.logger.LogInfo("Finished setting up radial buttons");
+        VSVRControllersMod.logger.LogInfo("Finished setting up radial buttons");
     }
 
     private static VSRadialButton.RadialLevel currentRadialLevel = VSRadialButton.RadialLevel.None;
@@ -414,7 +414,7 @@ public class Buttons
                     exitButtonRadial.GetComponent<PlayMakerFSM>().SendEvent("Click");
                     break;
                 default:
-                    VSVRMod.logger.LogError("Unexpected Radial State");
+                    VSVRControllersMod.logger.LogError("Unexpected Radial State");
                     break;
             }
         }
@@ -468,71 +468,5 @@ public class Buttons
             }
         }
         return false;
-    }
-
-    public static void PostiveAction() 
-    {
-        foreach (VSChoiceButton button in vsChoiceButtons)
-        {
-            if (button.type == VSChoiceButton.ButtonType.Positive && button.components.buttonObject.activeSelf)
-            {
-                VSVRMod.logger.LogInfo("Trying to click: " + button.name);
-                button.Click();
-            }
-        }
-    }
-
-    public static void NegativeAction()
-    {
-        foreach (VSChoiceButton button in vsChoiceButtons)
-        {
-            if (button.type == VSChoiceButton.ButtonType.Negative && button.components.buttonObject.activeSelf)
-            {
-                VSVRMod.logger.LogInfo("Trying to click: " + button.name);
-                button.Click();
-            }
-        }
-    }
-
-    public class HeadMovementTracker
-    {
-        static int nods;
-        static int headshakes;
-
-        static long lastNodTime;
-        static long lastHeadshakeTime;
-
-        public static void Nod()
-        {
-            headshakes = 0;
-            if (MathHelper.CurrentTimeMillis() - lastNodTime > 1000)
-            {
-                nods = 0;
-            }
-            nods++;
-            lastNodTime = MathHelper.CurrentTimeMillis();
-            VSVRMod.logger.LogInfo("Partial Nod");
-            if (nods >= 2) 
-            {
-                VSVRMod.logger.LogInfo("Full Nod");
-                PostiveAction();
-            }
-        }
-        public static void Headshake()
-        {
-            nods = 0;
-            if(MathHelper.CurrentTimeMillis() - lastHeadshakeTime > 1000)
-            {
-                headshakes = 0;
-            }
-            headshakes++;
-            lastHeadshakeTime = MathHelper.CurrentTimeMillis();
-            VSVRMod.logger.LogInfo("Partial Headshake");
-            if (headshakes >= 2)
-            {
-                VSVRMod.logger.LogInfo("Full Headshake");
-                NegativeAction();
-            }
-        }
     }
 }
